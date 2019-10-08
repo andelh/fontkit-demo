@@ -3,7 +3,7 @@ import * as OpenType from 'opentype.js';
 
 export default class PreviewCanvas extends Component {
 	static defaultProps = {
-		width: 600,
+		width: 1400,
 		height: 5000
 	};
 
@@ -211,9 +211,6 @@ export default class PreviewCanvas extends Component {
 			text
 		} = this.props;
 
-		console.log(font);
-		console.log(font.ascent);
-
 		ctx.save();
 		// console.log('1st Canvas Context Save');
 		ctx.scale(this.state.ratio, this.state.ratio);
@@ -223,69 +220,25 @@ export default class PreviewCanvas extends Component {
 
 		let scale = (1 / font.unitsPerEm) * fontSize;
 		let x = 0;
-		let y = 0;
-		let bbox = font.bbox.maxY + 100;
+		let bbox = font.bbox.maxY + font.bbox.maxY / 2;
 		let step = bbox;
+		let y = 0;
 		// console.log('Moving canvas to 0, 80');
 
-		ctx.translate(0, 80);
+		// ctx.translate(0, 80);
 		// console.log('Scale set to 1, -1');
 
 		ctx.scale(1, -1);
 
 		let characters = this.setupCharacters(font);
 
-		characters.map((letter, index) => {
-			let textRun = font.layout(
-				`${flag ? 'HH' : 'OO'}${letter.toString().trim()}${
-					flag ? 'HH' : 'OO'
-				}`,
-				features,
-				scipt,
-				language,
-				direction
-			);
-			textRun.glyphs.forEach((glyph, index) => {
-				let pos = textRun.positions[index];
-				ctx.save();
-
-				// console.log(textRun);
-				// console.log('Canvas content save in glyph run');
-
-				ctx.translate(
-					(x + pos.xOffset) * scale,
-					(y + pos.yOffset) * scale
-				);
-				// console.log(
-				// 	`Canvas translated ${(x + pos.xOffset) * scale}, ${(y +
-				// 		pos.yOffset) *
-				// 		scale}`
-				// );
-
-				ctx.beginPath();
-				glyph.render(ctx, fontSize);
-				ctx.restore();
-
-				x += pos.xAdvance;
-				// y += pos.yAdvance;
-				y = -bbox + step;
-			});
-
-			x = 0;
-			step -= bbox;
-		});
-
-		console.log(step);
-
-		// for (let i = 0; i < 96; i++) {
-		// 	let letter = String.fromCharCode(65 + i);
-
+		// characters.map((letter, index) => {
 		// 	let textRun = font.layout(
-		// 		'OO' + letter.toString().trim() + 'OO'
-		// 		// features,
-		// 		// scipt,
-		// 		// language,
-		// 		// direction
+		// 		`OO${letter.toString().trim()}OO`,
+		// 		features,
+		// 		scipt,
+		// 		language,
+		// 		direction
 		// 	);
 		// 	textRun.glyphs.forEach((glyph, index) => {
 		// 		let pos = textRun.positions[index];
@@ -309,27 +262,72 @@ export default class PreviewCanvas extends Component {
 		// 		ctx.restore();
 
 		// 		x += pos.xAdvance;
-		// 		y += pos.yAdvance;
-		// 		y = -900 + step;
+		// 		// y += pos.yAdvance;
+		// 		y = -bbox + step;
 		// 	});
 
 		// 	x = 0;
-		// 	step -= 900;
-		// }
+		// 	step -= bbox;
+		// });
+
+		for (let i = 0; i < characters.length; i++) {
+			let textRun = font.layout(
+				`${i % 2 == 0 ? 'OH' : 'HO'}` +
+					characters[i].toString().trim() +
+					`${i % 2 == 0 ? 'HH' : 'OO'}`
+				// features,
+				// scipt,
+				// language,
+				// direction
+			);
+			textRun.glyphs.forEach((glyph, index) => {
+				let pos = textRun.positions[index];
+				ctx.save();
+
+				// console.log(textRun);
+				// console.log('Canvas content save in glyph run');
+
+				ctx.translate(
+					(x + pos.xOffset) * scale,
+					(y + pos.yOffset) * scale
+				);
+				// console.log(
+				// 	`Canvas translated ${(x + pos.xOffset) * scale}, ${(y +
+				// 		pos.yOffset) *
+				// 		scale}`
+				// );
+
+				ctx.beginPath();
+				glyph.render(ctx, fontSize);
+				ctx.restore();
+
+				x += pos.xAdvance;
+
+				y = -bbox + step;
+			});
+
+			x = 0;
+
+			if (i % 2 == 0) {
+				step -= bbox;
+			} else {
+				step -= bbox / 1.5;
+			}
+		}
 
 		ctx.restore();
 	}
 
 	setupCharacters = font => {
-		let characters = [];
+		let characters = ['A'];
 		for (let i = 0; i < 96; i++) {
 			let letter = String.fromCharCode(65 + i);
 
 			if (font.hasGlyphForCodePoint(65 + i)) {
 				characters.push(letter);
+				characters.push(letter);
 			}
 		}
-
 		return characters;
 	};
 
@@ -415,7 +413,7 @@ export default class PreviewCanvas extends Component {
 				<canvas
 					width={width * this.state.ratio}
 					height={height * this.state.ratio}
-					style={{ width: '100%', height }}
+					style={{ width: 'auto', height }}
 					ref={c => (this.canvas = c)}
 				/>
 				<canvas

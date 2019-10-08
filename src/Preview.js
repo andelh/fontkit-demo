@@ -84,7 +84,7 @@ export default class Preview extends Component {
 					<input
 						type="range"
 						min={0}
-						max={100}
+						max={500}
 						value={this.state.fontSize}
 						onInput={this.onFontSizeChange}
 					/>
