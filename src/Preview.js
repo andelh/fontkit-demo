@@ -2,6 +2,15 @@ import autobind from 'autobind-decorator';
 import { Component, h } from 'preact';
 import PreviewCanvas from './PreviewCanvas';
 
+const BLOBTEXT = `OOAOO
+OOBOO
+OOCOO
+OODOO
+OOEOO
+OOFOO
+OOGOO
+OOHOO
+`;
 @autobind
 export default class Preview extends Component {
 	state = this.getNextState(this.props);
@@ -14,7 +23,7 @@ export default class Preview extends Component {
 
 	getNextState(props) {
 		return {
-			text: 'OOWOO',
+			text: BLOBTEXT,
 			fontSize: this.props.fontSize || 50,
 			features: {},
 			script: null,

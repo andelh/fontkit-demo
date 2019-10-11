@@ -3,8 +3,8 @@ import * as OpenType from 'opentype.js';
 
 export default class PreviewCanvas extends Component {
 	static defaultProps = {
-		width: 1400,
-		height: 5000
+		width: 1500,
+		height: 10000
 	};
 
 	state = {
@@ -20,6 +20,7 @@ export default class PreviewCanvas extends Component {
 	componentDidUpdate() {
 		this.draw6(this.ctx);
 		// this.draw6(this.ctx2, true);
+		// this.drawAndel(this.ctx);
 		this.setupCharacters(this.props.font);
 		// this.drawLeft();
 	}
@@ -47,6 +48,102 @@ export default class PreviewCanvas extends Component {
 		// ctx.restore();
 		ctx.restore();
 	}
+
+	drawAndel(ctx) {
+		//Clear the current canvas
+		//Import the font details from props
+		//Save the canvas to memory at a default layout
+		//Get the font run of the required string, which includes all the coordinates for drawing to canvas
+		//Get the glyph spacing from the font run
+		//Get the drawings and map them to the glyph advances 1 to 1
+
+		let {
+			font,
+			run,
+			fontSize,
+			width,
+			height,
+			features,
+			script,
+			language,
+			direction,
+			text
+		} = this.props;
+
+		ctx.scale(1, -1);
+		ctx.save();
+
+		// console.log('Cleared rect');
+		ctx.clearRect(0, 0, width, height);
+		//Brings the font into view on the canvas
+		ctx.translate(0, -200);
+
+		//TODO REPLACE HARDCODED FONT SCALE VALUES- 150
+		let fontScale = (1 / font.unitsPerEm) * 150;
+
+		let glyphRun = font.layout(
+			'Hello World',
+			features,
+			script,
+			language,
+			direction
+		);
+
+		console.log(glyphRun);
+
+		ctx.translate(run.glyphs[0].bbox.maxX * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[0].render(ctx, 150);
+
+		ctx.translate(run.glyphs[1].bbox.maxX * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[1].render(ctx, 150);
+
+		ctx.translate(run.glyphs[2].bbox.maxX * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[2].render(ctx, 150);
+
+		ctx.translate(run.glyphs[3].bbox.maxX * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[3].render(ctx, 150);
+
+		ctx.translate(run.glyphs[4].bbox.maxX * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[4].render(ctx, 150);
+
+		ctx.translate(run.glyphs[5].bbox.maxX * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[5].render(ctx, 150);
+
+		ctx.translate(run.glyphs[6].bbox.maxX * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[6].render(ctx, 150);
+
+		ctx.translate(run.glyphs[7].bbox.maxX * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[7].render(ctx, 150);
+
+		ctx.translate(run.positions[8].xAdvance * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[8].render(ctx, 150);
+
+		ctx.translate(run.positions[9].xAdvance * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[9].render(ctx, 150);
+
+		ctx.translate(run.positions[10].xAdvance * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[10].render(ctx, 150);
+
+		ctx.translate(run.positions[11].xAdvance * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[11].render(ctx, 150);
+
+		ctx.translate(run.positions[12].xAdvance * fontScale, 0);
+		ctx.beginPath();
+		run.glyphs[12].render(ctx, 150);
+	}
+
 	draw6(ctx, flag) {
 		// console.log('in draw function');
 		let {
@@ -82,44 +179,6 @@ export default class PreviewCanvas extends Component {
 		ctx.scale(1, -1);
 
 		let characters = this.setupCharacters(font);
-
-		// characters.map((letter, index) => {
-		// 	let textRun = font.layout(
-		// 		`OO${letter.toString().trim()}OO`,
-		// 		features,
-		// 		scipt,
-		// 		language,
-		// 		direction
-		// 	);
-		// 	textRun.glyphs.forEach((glyph, index) => {
-		// 		let pos = textRun.positions[index];
-		// 		ctx.save();
-
-		// 		// console.log(textRun);
-		// 		// console.log('Canvas content save in glyph run');
-
-		// 		ctx.translate(
-		// 			(x + pos.xOffset) * scale,
-		// 			(y + pos.yOffset) * scale
-		// 		);
-		// 		// console.log(
-		// 		// 	`Canvas translated ${(x + pos.xOffset) * scale}, ${(y +
-		// 		// 		pos.yOffset) *
-		// 		// 		scale}`
-		// 		// );
-
-		// 		ctx.beginPath();
-		// 		glyph.render(ctx, fontSize);
-		// 		ctx.restore();
-
-		// 		x += pos.xAdvance;
-		// 		// y += pos.yAdvance;
-		// 		y = -bbox + step;
-		// 	});
-
-		// 	x = 0;
-		// 	step -= bbox;
-		// });
 
 		for (let i = 0; i < characters.length; i++) {
 			let textRun = font.layout(
@@ -161,9 +220,9 @@ export default class PreviewCanvas extends Component {
 
 			if (i % 2 == 0) {
 				//Adjust the spacing between each pair HERE
-				step -= bbox * 0.8;
+				step -= bbox * 1;
 			} else {
-				step -= bbox / 1.5;
+				step -= bbox / 1.3;
 			}
 		}
 
