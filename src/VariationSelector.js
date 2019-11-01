@@ -1,5 +1,5 @@
 import autobind from 'autobind-decorator';
-import {Component, cloneElement, h} from 'preact';
+import { Component, cloneElement, h } from 'preact';
 import isEqual from 'lodash/isEqual';
 import mapValues from 'lodash/mapValues';
 import findKey from 'lodash/findKey';
@@ -17,6 +17,7 @@ export default class VariationSelector extends Component {
       || 'Custom';
 
     let font = props.font;
+    console.log(font)
     if (Object.keys(defaultSettings).length > 0) {
       font = font.getVariation(defaultSettings);
     }
@@ -29,6 +30,9 @@ export default class VariationSelector extends Component {
   }
 
   onChange(e) {
+
+    console.log(e.target.value)
+
     this.setState({
       font: this.props.font.getVariation(e.target.value),
       variationName: e.target.value,
@@ -41,6 +45,7 @@ export default class VariationSelector extends Component {
       [tag]: e.target.value
     });
 
+    //Send variation settings to next component
     this.setState({
       font: this.props.font.getVariation(settings),
       variationName: null,
@@ -68,12 +73,12 @@ export default class VariationSelector extends Component {
               type="range"
               min={axes[tag].min}
               max={axes[tag].max}
-              step={0.001}
+              step={1}
               value={this.state.variationSettings[tag]}
               onInput={this.onAxisChange.bind(this, tag)} />
           </div>
         )}
-        {this.props.children.map(c => cloneElement(c, {font: this.state.font}))}
+        {this.props.children.map(c => cloneElement(c, { font: this.state.font, variationSettings: this.state.variationSettings }))}
       </div>
     );
   }

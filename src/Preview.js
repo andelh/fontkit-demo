@@ -107,6 +107,7 @@ export default class Preview extends Component {
 					script={this.state.script}
 					language={this.state.language}
 					direction={this.state.direction}
+					variationSettings={this.props.variationSettings}
 				/>
 				<div className="text-input">
 					<input

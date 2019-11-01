@@ -1,5 +1,5 @@
 import autobind from 'autobind-decorator';
-import {Component, cloneElement, h} from 'preact';
+import { Component, cloneElement, h } from 'preact';
 import fontkit from 'fontkit';
 import blobToBuffer from 'blob-to-buffer';
 
@@ -24,11 +24,14 @@ export default class FontLoader extends Component {
   onChange(e) {
     let file = e.target.files && e.target.files[0];
     if (file) {
+      console.log(file)
       this.loadBlob(file);
     }
   }
 
   loadURL(url) {
+    console.log(url)
+    console.log(this.props.url)
     fetch(this.props.url)
       .then(res => res.blob())
       .then(this.loadBlob, console.error);
@@ -39,9 +42,21 @@ export default class FontLoader extends Component {
       if (err) {
         throw err;
       }
-
       this.setState({
         font: fontkit.create(buffer)
+      }, () => {
+        // console.log(this.state)
+
+        var junction_font = new FontFace('LoadedFont', buffer, { weight: `100 900` });
+        junction_font.load().then(function (loaded_face) {
+          // loaded_face holds the loaded FontFace
+          console.log(loaded_face)
+          document.fonts.add(loaded_face);
+        }).catch(function (error) {
+          // error occurred
+          console.log(error)
+        });
+        console.log(junction_font)
       });
     });
   }
@@ -50,7 +65,7 @@ export default class FontLoader extends Component {
     return (
       <div className="font-loader">
         <input type="file" onChange={this.onChange} />
-        {this.state.font && this.props.children.map(c => cloneElement(c, {font: this.state.font}))}
+        {this.state.font && this.props.children.map(c => cloneElement(c, { font: this.state.font }))}
       </div>
     );
   }

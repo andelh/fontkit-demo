@@ -1,5 +1,7 @@
 import { Component, h } from 'preact';
 import * as OpenType from 'opentype.js';
+import * as _ from 'lodash'
+
 
 export default class PreviewCanvas extends Component {
 	static defaultProps = {
@@ -12,16 +14,16 @@ export default class PreviewCanvas extends Component {
 	};
 
 	componentDidMount() {
-		this.ctx = this.canvas.getContext('2d');
-		this.ctx2 = this.canvas2.getContext('2d');
+		// this.ctx = this.canvas.getContext('2d');
+		// this.ctx2 = this.canvas2.getContext('2d');
 		this.setState({ ratio: window.devicePixelRatio || 1 });
 	}
 
 	componentDidUpdate() {
-		this.draw6(this.ctx);
+		// this.draw6(this.ctx);
 		// this.draw6(this.ctx2, true);
 		// this.drawAndel(this.ctx);
-		this.setupCharacters(this.props.font);
+		// this.setupCharacters(this.props.font);
 		// this.drawLeft();
 	}
 
@@ -183,8 +185,8 @@ export default class PreviewCanvas extends Component {
 		for (let i = 0; i < characters.length; i++) {
 			let textRun = font.layout(
 				`${i % 2 == 0 ? 'OH' : 'HO'}` +
-					characters[i] +
-					`${i % 2 == 0 ? 'HH' : 'OO'}`
+				characters[i] +
+				`${i % 2 == 0 ? 'HH' : 'OO'}`
 				// features,
 				// scipt,
 				// language,
@@ -280,7 +282,7 @@ export default class PreviewCanvas extends Component {
 			console.log(
 				`Canvas translated ${(x + pos.xOffset) * scale}, ${(y +
 					pos.yOffset) *
-					scale}`
+				scale}`
 			);
 
 			ctx.beginPath();
@@ -303,7 +305,7 @@ export default class PreviewCanvas extends Component {
 			console.log(
 				`Canvas translated ${(x + pos.xOffset) * scale}, ${(y +
 					pos.yOffset) *
-					scale}`
+				scale}`
 			);
 
 			ctx.beginPath();
@@ -318,22 +320,57 @@ export default class PreviewCanvas extends Component {
 	}
 
 	render() {
-		let { width, height, font } = this.props;
+		let { width, height, font, fontSize } = this.props;
+		// console.log(this.props.font.variationAxes)
+		const settings = this.props.variationSettings
+		var result = Object.keys(settings).map(function (key) {
+			return `"${String(key)}" ${parseInt(settings[key])}`;
+		});
+		// console.log(Object.entries(settings));
+		// console.log(result)
+		// console.log(result.toString())
+		const style = {
+			fontFamily: 'LoadedFont',
+			fontSize: `${fontSize}px`,
+			fontWeight: parseInt(this.props.variationSettings.wght),
+			fontVariationSettings: result.toString(),
+			lineHeight: '100%'
+			// fontVariationSettings: `"wght" ${parseInt(this.props.variationSettings.wght)}, "MONO" ${parseInt(this.props.variationSettings.MONO)}, "XPRN" ${parseInt(this.props.variationSettings.XPRN)}, "slnt" ${parseInt(this.props.variationSettings.slnt)}, "ital" ${parseInt(this.props.variationSettings.ital)}`
+
+		}
 		return (
-			<div>
-				<canvas
-					width={width * this.state.ratio}
-					height={height * this.state.ratio}
-					style={{ width, height }}
-					ref={c => (this.canvas = c)}
-				/>
-				<canvas
-					width={width * this.state.ratio}
-					height={height * this.state.ratio}
-					style={{ width, height }}
-					ref={c => (this.canvas2 = c)}
-				/>
-			</div>
+
+
+			<div contentEditable style={style}>
+				OOAOO HHAHH <br />
+				OOBOO HHBHH <br />
+				OOCOO HHCHH <br />
+				OODOO HHDHH <br />
+				OOEOO HHEHH <br />
+				OOFOO HHFHH <br />
+				OOGOO HHGHH <br />
+				OOHOO HHHHH <br />
+				OOIOO HHIHH <br />
+				OOJOO HHJHH <br />
+				OOKOO HHKHH <br />
+				OOLOO HHLHH <br />
+				OOMOO HHMHH <br />
+				OONOO HHNHH <br />
+				OOOOO HHOHH <br />
+				OOPOO HHPHH <br />
+				OOQOO HHQHH <br />
+				OOAOO HHAHH <br />
+				OOROO HHRHH <br />
+				OOSOO HHSHH <br />
+				OOTOO HHTHH <br />
+				OOUOO HHUHH <br />
+				OOVOO HHVHH <br />
+				OOWOO HHWHH <br />
+				OOXOO HHXHH <br />
+				OOYOO HHYHH <br />
+				OOZOO HHZHH <br />
+			</div >
+			// <div contentEditable style={style}>THE TEST OF TESTS</div >
 		);
 	}
 }

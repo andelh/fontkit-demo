@@ -1,5 +1,5 @@
 import autobind from 'autobind-decorator';
-import {Component, cloneElement, h} from 'preact';
+import { Component, cloneElement, h } from 'preact';
 
 @autobind
 export default class CollectionSelector extends Component {
