@@ -334,7 +334,9 @@ export default class PreviewCanvas extends Component {
 			fontSize: `${fontSize}px`,
 			fontWeight: parseInt(this.props.variationSettings.wght),
 			fontVariationSettings: result.toString(),
-			lineHeight: '100%'
+			lineHeight: '100%',
+			marginTop: '50px'
+
 			// fontVariationSettings: `"wght" ${parseInt(this.props.variationSettings.wght)}, "MONO" ${parseInt(this.props.variationSettings.MONO)}, "XPRN" ${parseInt(this.props.variationSettings.XPRN)}, "slnt" ${parseInt(this.props.variationSettings.slnt)}, "ital" ${parseInt(this.props.variationSettings.ital)}`
 
 		}
