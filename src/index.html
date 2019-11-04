@@ -1,97 +1,108 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<style>
-			body {
-				background: #eee;
-				font-family: 'Avenir Next', Helvetica, sans-serif;
-				font-size: 15px;
-			}
 
-			.font-loader {
-				margin: 40px auto;
-				background: white;
-				padding: 40px;
-				border-radius: 5px;
-				border: 1px solid #dedede;
-				box-shadow: 0 0 5px #ddd;
-			}
+<head>
+	<meta charset="utf-8" />
+	<style>
+		body {
+			background: #eee;
+			font-family: 'Avenir Next', Helvetica, sans-serif;
+			font-size: 15px;
+		}
 
-			select,
-			input,
-			label {
-				margin-bottom: 10px;
-			}
+		.font-loader {
+			margin: 40px auto;
+			background: white;
+			padding: 40px;
+			border-radius: 5px;
+			border: 1px solid #dedede;
+			box-shadow: 0 0 5px #ddd;
+		}
 
-			.preview .font-size label,
-			.variation-selector .axis label {
-				display: inline-block;
-				width: 100px;
-			}
+		select,
+		input,
+		label {
+			margin-bottom: 10px;
+		}
 
-			.preview .font-size input,
-			.variation-selector .axis input {
-				vertical-align: top;
-				vertical-align: -webkit-baseline-middle;
-			}
+		.preview .font-size label,
+		.variation-selector .axis label {
+			display: inline-block;
+			width: 100px;
+		}
 
-			.preview > canvas {
-				display: block;
-			}
-			.preview > div {
-				display: grid;
-				grid-template-columns: 100%;
-			}
+		.preview .font-size input,
+		.variation-selector .axis input {
+			vertical-align: top;
+			vertical-align: -webkit-baseline-middle;
+		}
 
-			.preview > input {
-				margin-right: 5px;
-			}
+		.preview>canvas {
+			display: block;
+		}
 
-			.preview .text-input > input {
-				width: 100%;
-				unicode-bidi: plaintext;
-			}
+		.preview>div {
+			display: grid;
+			grid-template-columns: 100%;
+		}
 
-			.preview > * {
-				margin-bottom: 0;
-			}
+		.preview>input {
+			margin-right: 5px;
+		}
 
-			.inspector {
-				margin: 20px 0;
-			}
+		.preview .text-input>input {
+			width: 100%;
+			unicode-bidi: plaintext;
+		}
 
-			.inspector th {
-				font-weight: 600;
-				text-align: right;
-			}
+		.preview>* {
+			margin-bottom: 0;
+		}
 
-			footer {
-				text-align: center;
-			}
+		.inspector {
+			margin: 20px 0;
+		}
 
-			.feature-selector {
-				margin-top: 20px;
-			}
+		.inspector th {
+			font-weight: 600;
+			text-align: right;
+		}
 
-			.variation-selector .axis > label,
-			.preview .font-size > label,
-			.feature-selector > label {
-				margin: 0 5px;
-			}
+		footer {
+			text-align: center;
+		}
 
-			.features {
-				column-count: 4;
-				margin-top: 5px;
-			}
+		.feature-selector {
+			margin-top: 20px;
+		}
 
-			.features label {
-				display: block;
-				margin-bottom: 0;
-			}
-		</style>
-	</head>
-	<body>
-		<script src="./app.js"></script>
-	</body>
+		.variation-selector .axis>label,
+		.preview .font-size>label,
+		.feature-selector>label {
+			margin: 0 5px;
+		}
+
+		.features {
+			column-count: 4;
+			margin-top: 5px;
+		}
+
+		.features label {
+			display: block;
+			margin-bottom: 0;
+		}
+
+		.preview>.render-type {
+			display: flex;
+			flex-direction: row;
+			/* justify-content: space-between; */
+
+		}
+	</style>
+</head>
+
+<body>
+	<script src="./app.js"></script>
+</body>
+
 </html>
